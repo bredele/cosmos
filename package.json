@@ -10,7 +10,8 @@
     "commander": "1.0.5",
     "win-fork": "1.0.0",
     "open": "0.0.4",
-    "superagent": "~0.17.0"
+    "request": "~2.34.0",
+    "unzip": "~0.1.9"
   },
   "bin": {
     "cosmos": "bin/cosmos",

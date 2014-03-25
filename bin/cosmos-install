@@ -5,7 +5,10 @@
  */
 
 var program = require('commander'),
-		request = require('../utils/package').request;
+    path = require('path'),
+    resolve = path.resolve,
+    unzip = require('unzip'),
+    request = require('request');
 
 
 /**
@@ -35,6 +38,10 @@ program.on('--help', function(){
 var path = program.args[0];
 
 if(path) {
-	var split = path.split('/');
-	request(split[0], split[1]);
+  var split = path.split('/');
+  var url = '/' + split[0] + '/' + split[1] + '/zip/master';
+  request('https://codeload.github.com' + url)
+    .pipe(unzip.Extract({
+      path: resolve('.')
+    }));
 }
