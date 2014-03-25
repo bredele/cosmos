@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var program = require('commander');
+
+// usage
+
+program
+  .version(require('../package').version)
+  .usage('<command> [options]');
+
+// sub-command help
+
+program.on('--help', function(){
+  console.log('  Commands:');
+  console.log();
+  console.log('    install [name ...]      install one or more cosmos projects');
+  console.log('    search [query]          search with the given query');
+  console.log('    wiki                    open the cosmos wiki page');
+  console.log();
+  process.exit();
+});
