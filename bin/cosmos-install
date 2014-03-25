@@ -8,6 +8,7 @@ var program = require('commander'),
     path = require('path'),
     resolve = path.resolve,
     unzip = require('unzip'),
+    utils = require('../utils/utils'),
     request = require('request');
 
 
@@ -17,6 +18,7 @@ var program = require('commander'),
 
 program
   .usage('[name ...]')
+  .option('-v, --verbose', 'verbose output')
   .parse(process.argv);
 
 
@@ -37,11 +39,19 @@ program.on('--help', function(){
 
 var path = program.args[0];
 
+
+//extract zip
+
 if(path) {
   var split = path.split('/');
   var url = '/' + split[0] + '/' + split[1] + '/zip/master';
-  request('https://codeload.github.com' + url)
-    .pipe(unzip.Extract({
+  utils.log('install', path);
+  request('https://codeload.github.com' + url, function(err, res, body) {
+    if(body === 'Not Found') return utils.fatal(body);
+    utils.log('parse', path);
+  })
+  .pipe(unzip.Extract({
       path: resolve('.')
     }));
+  //utils.log('complete', path);
 }
