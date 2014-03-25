@@ -5,12 +5,20 @@
  */
 
 var program = require('commander');
+var path = require('path');
+var join = path.join;
+var fs = require('fs');
+var join = path.join;
+var exists = fs.existsSync;
+var spawn = require('win-fork');
+
 
 // usage
 
 program
   .version(require('../package').version)
   .usage('<command> [options]');
+
 
 // sub-command help
 
@@ -22,4 +30,50 @@ program.on('--help', function(){
   console.log('    wiki                    open the cosmos wiki page');
   console.log();
   process.exit();
+});
+
+
+// parse argv
+
+program.parse(process.argv);
+
+
+// args void of cmd
+
+var args = process.argv.slice(3);
+
+
+// command
+
+var cmd = program.args[0];
+
+
+// display help
+
+if (!cmd) program.help();
+
+
+// executable
+
+var bin = 'cosmos-' + cmd;
+
+
+// local or resolve to absolute executable path
+
+var local = join(__dirname, bin);
+
+
+// display help if bin does not exist
+
+if (!exists(local)) {
+  console.error('\n  %s(1) does not exist', bin);
+  program.help();
+}
+
+// spawn
+
+var proc = spawn(local, args, { stdio: 'inherit', customFds: [0, 1, 2] });
+
+proc.on('close', function(code){
+  process.exit(code);
 });
