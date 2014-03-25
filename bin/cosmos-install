@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-var program = require('commander');
+var program = require('commander'),
+		request = require('../utils/package').request;
 
 
 /**
@@ -27,3 +28,13 @@ program.on('--help', function(){
   console.log('    $ component install github/name');
   console.log();
 });
+
+
+//get project's name
+
+var path = program.args[0];
+
+if(path) {
+	var split = path.split('/');
+	request(split[0], split[1]);
+}
