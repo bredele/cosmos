@@ -6,6 +6,13 @@
   "scripts": {
     "test": "mocha"
   },
+  "dependencies": {
+    "commander": "1.0.5"
+  },
+  "bin": {
+    "cosmos": "bin/cosmos",
+    "cosmos-search": "bin/cosmos-search"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/bredele/cosmos.git"
