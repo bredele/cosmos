@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var program = require('commander');
+
+
+/**
+ * Options.
+ */
+
+program
+  .usage('[name ...]')
+  .parse(process.argv);
+
+
+/**
+ * Examples.
+ */
+
+program.on('--help', function(){
+  console.log('  Examples:');
+  console.log();
+  console.log('    # install a single cosmos project');
+  console.log('    $ component install github/name');
+  console.log();
+});
