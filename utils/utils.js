@@ -7,7 +7,6 @@
  */
 
 exports.fatal = function(){
-  console.error();
   exports.error.apply(null, arguments);
   console.error();
   process.exit(1);

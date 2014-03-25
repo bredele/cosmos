@@ -49,9 +49,9 @@ if(path) {
   request('https://codeload.github.com' + url, function(err, res, body) {
     if(body === 'Not Found') return utils.fatal(body);
     utils.log('parse', path);
-  })
-  .pipe(unzip.Extract({
-      path: resolve('.')
-    }));
+  }).pipe(unzip.Extract({
+    path: resolve('.')
+  })).on('error', function(msg) {});
+    
   //utils.log('complete', path);
 }
