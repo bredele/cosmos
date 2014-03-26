@@ -1,0 +1,105 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var program = require('commander'),
+		path = require('path'),
+		fs = require('fs'),
+		join = path.join,
+		read = fs.readFileSync,
+		readdir = fs.readdirSync,
+		exists = fs.existsSync,
+		mkdir = require('mkdirp').sync,
+    utils = require('../utils/utils'),
+    copy = require('wrench').copyDirSyncRecursive;
+
+// usage
+
+program.usage('[dir]');
+
+
+// options
+
+program
+  .parse(process.argv);
+
+
+// config
+
+var conf = {};
+
+
+// dest
+
+var dir = program.args[0] || '.';
+
+
+// --local
+
+var schedule = program.schedule;
+
+
+// already a component
+
+if(exists(dir)) {
+  utils.fatal(dir + ' directory already exists');
+}
+
+
+/**
+ * Verbose write.
+ */
+
+function write(path, str) {
+  if (exists(path)) {
+    utils.warn('exists', path);
+  } else {
+    utils.log('create', path);
+    fs.writeFileSync(path, str);
+  }
+}
+
+var prompt = {
+  name: 'name: ',
+  type: 'type: ',
+  description: 'description: '
+};
+
+// prompt
+
+program.prompt(prompt, function(obj){
+	var name = obj.name;
+
+  // populate json
+  conf.name = name;
+  conf.type = obj.type;
+  conf.description = obj.description;
+  conf.version = "0.0.0";
+  conf.plugins = {};
+
+  // dir
+  console.log();
+  utils.log('create', dir);
+  //mkdir(dir);
+  try {
+    var from = path.resolve(__dirname, '../templates/' + conf.type);
+    var to =  path.resolve('.') + '/' + dir;
+    copy(from, to, function (err) {
+     if (err) {
+       //return utils.warn(conf.type + " doesn't exist");
+     }
+     utils.log('clone', conf.type);
+    });
+  } catch(e) {
+    utils.warn('warning', conf.type + " doesn't exist.");
+    mkdir(dir);
+  }
+
+  // write roach.json
+  write(join(dir, 'cosmos.json'), JSON.stringify(conf, null, 2));
+
+  console.log();
+  process.exit();
+});
