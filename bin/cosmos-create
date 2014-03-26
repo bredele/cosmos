@@ -17,13 +17,27 @@ var program = require('commander'),
 
 // usage
 
-program.usage('[dir]');
+program.usage('[template]');
 
 
 // options
 
 program
   .parse(process.argv);
+
+
+/**
+ * Examples.
+ */
+
+program.on('--help', function(){
+  console.log('  Examples:');
+  console.log();
+  console.log('    # create cosmos project from jekyll template');
+  console.log('    $ cosmos create jekyll');
+  console.log();
+});
+
 
 
 // config
@@ -33,19 +47,8 @@ var conf = {};
 
 // dest
 
-var dir = program.args[0] || '.';
+var tmpl = program.args[0] || '.';
 
-
-// --local
-
-var schedule = program.schedule;
-
-
-// already a component
-
-if(exists(dir)) {
-  utils.fatal(dir + ' directory already exists');
-}
 
 
 /**
@@ -63,7 +66,6 @@ function write(path, str) {
 
 var prompt = {
   name: 'name: ',
-  type: 'type: ',
   description: 'description: '
 };
 
@@ -74,31 +76,35 @@ program.prompt(prompt, function(obj){
 
   // populate json
   conf.name = name;
-  conf.type = obj.type;
   conf.description = obj.description;
   conf.version = "0.0.0";
   conf.plugins = {};
 
+  if(exists(name)) {
+    console.log();
+    utils.fatal(name + ' directory already exists');
+  }
+
   // dir
   console.log();
-  utils.log('create', dir);
+  utils.log('create', name);
   //mkdir(dir);
   try {
-    var from = path.resolve(__dirname, '../templates/' + conf.type);
-    var to =  path.resolve('.') + '/' + dir;
+    var from = path.resolve(__dirname, '../templates/' + tmpl);
+    var to =  path.resolve('.') + '/' + name;
     copy(from, to, function (err) {
      if (err) {
        //return utils.warn(conf.type + " doesn't exist");
      }
-     utils.log('clone', conf.type);
+     utils.log('clone', tmpl);
     });
   } catch(e) {
-    utils.warn('warning', conf.type + " doesn't exist.");
-    mkdir(dir);
+    utils.warn('warning', tmpl + " doesn't exist.");
+    mkdir(name);
   }
 
   // write roach.json
-  write(join(dir, 'cosmos.json'), JSON.stringify(conf, null, 2));
+  write(join(name, 'cosmos.json'), JSON.stringify(conf, null, 2));
 
   console.log();
   process.exit();
