@@ -5,11 +5,11 @@
  */
 
 var program = require('commander'),
-    path = require('path'),
-    resolve = path.resolve,
-    unzip = require('unzip'),
-    utils = require('../utils/utils'),
-    request = require('request');
+var path = require('path');
+var resolve = path.resolve;
+var unzip = require('unzip');
+var utils = require('../utils/utils');
+var request = require('request');
 
 
 /**

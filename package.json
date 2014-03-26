@@ -13,11 +13,16 @@
     "request": "~2.34.0",
     "unzip": "~0.1.9",
     "mkdirp": "~0.3.5",
-    "wrench": "~1.5.8"
+    "wrench": "~1.5.8",
+    "express": "~3.5.1"
   },
   "bin": {
     "cosmos": "bin/cosmos",
-    "cosmos-search": "bin/cosmos-search"
+    "cms": "bin/cosmos",
+    "cosmos-search": "bin/cosmos-search",
+    "cosmos-create": "bin/cosmos-create",
+    "cosmos-install": "bin/cosmos-install",
+    "cosmos-wiki": "bin/cosmos-wiki"
   },
   "repository": {
     "type": "git",

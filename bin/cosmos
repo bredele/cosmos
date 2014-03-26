@@ -11,6 +11,8 @@ var fs = require('fs');
 var join = path.join;
 var exists = fs.existsSync;
 var spawn = require('win-fork');
+var utils = require('../utils/utils');
+var app = require('..').app;
 
 
 // usage
@@ -33,6 +35,9 @@ program.on('--help', function(){
 });
 
 
+process.title = 'cosmos';
+
+
 // parse argv
 
 program.parse(process.argv);
@@ -50,30 +55,34 @@ var cmd = program.args[0];
 
 // display help
 
-if (!cmd) program.help();
+if (!cmd) {
+  app.listen(3001);
+  utils.log('server running', 'listening on port 3001');
+} else {
+
+  // executable
+
+  var bin = 'cosmos-' + cmd;
 
 
-// executable
+  // local or resolve to absolute executable path
 
-var bin = 'cosmos-' + cmd;
-
-
-// local or resolve to absolute executable path
-
-var local = join(__dirname, bin);
+  var local = join(__dirname, bin);
 
 
-// display help if bin does not exist
+  // display help if bin does not exist
 
-if (!exists(local)) {
-  console.error('\n  %s(1) does not exist', bin);
-  program.help();
+  if (!exists(local)) {
+    console.error('\n  %s(1) does not exist', bin);
+    program.help();
+  }
+
+  // spawn
+
+  var proc = spawn(local, args, { stdio: 'inherit', customFds: [0, 1, 2] });
+
+  proc.on('close', function(code){
+    process.exit(code);
+  });
+
 }
-
-// spawn
-
-var proc = spawn(local, args, { stdio: 'inherit', customFds: [0, 1, 2] });
-
-proc.on('close', function(code){
-  process.exit(code);
-});

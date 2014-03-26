@@ -22,7 +22,7 @@ exports.fatal = function(){
  */
 
 exports.log = function(type, msg, color){
-  color = color || '36';
+  color = color || '32'; //36';
   var w = 10;
   var len = Math.max(0, w - type.length);
   var pad = Array(len + 1).join(' ');
