@@ -6,8 +6,8 @@
 	<link rel="stylesheet" href="cosmos.css">
 </head>
 <body>
-	<header class="header">
-		<nav class="container">
+	<header class="header expand">
+		<nav class="container nav">
 			<div class="account-trigger fr nav-item icon-arrow-down">
 				<div class="menu right">
 					<a href="/bredele/new-project">New Project</a>
@@ -25,6 +25,14 @@
 				</div>
 			</div>
 		</nav>
+		<form class="create-panel container">
+			<fieldset class="fieldset">
+				<label class="label">project name</label>
+				<input type="text" class="input" placeholder="Project name" autofocus>
+			</fieldset>
+			<button class="btn cancel fr">Cancel</button>
+			<button class="btn fr">Create</button>
+		</form>
 	</header>
 	<script>
 		//this is just for test purpose

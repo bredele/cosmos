@@ -69,7 +69,16 @@ a {
 
 .header {
 	background:#3E3F3A;
-	min-height: 42px;
+	height:85px;
+}
+
+.header.expand {
+	height: 300px;
+}
+
+.nav {
+	height: 100px;
+	padding:20px 0;
 }
 
 .account-trigger, .project-trigger{
@@ -173,4 +182,68 @@ a {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.fieldset {
+	float:left;
+	position:relative;
+	border:0;
+}
+
+.label {
+	position:absolute;
+	top:-20px;
+	text-transform: uppercase;
+	font-size: .694444444em;
+	color: #b4a995;
+}
+
+.input {
+	border-radius: 3px;
+	color:#F8F5F0;
+	padding:0 14px;
+	width:200px;
+	outline: 0;
+	height: 34px;
+	border: 0;
+	background: rgba(255,255,255,.2);
+/*	background: #f8f5f0;*/
+}
+
+.btn {
+	margin-left:20px;
+	-webkit-transition: all 150ms linear;
+	transition: all 150ms linear;
+	border-radius: 4px;
+	text-transform: uppercase;
+	background-color: #A6C776;
+	border: none;
+	padding: 1.0625em 1.25em;
+	line-height: 1;
+	font-weight: 600;
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	color: #F8F5F0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.btn:hover {
+	background-color: #83A552;
+	cursor:pointer;
+}
+.cancel {
+	opacity:.5;
+	background:#EC6C49;
+}
+.cancel:hover {
+	background: #d96241;
+	opacity:1;
+}
+
+.cancel:hover + .btn {
+	opacity:.5;
 }
