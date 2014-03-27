@@ -166,11 +166,38 @@ a {
 	background: #83a552;
 }
 
+.link {
+	color: #838077;
+	font-size: 13px;
+	padding: 0 10px 0 15px;
+	line-height: 42px;
+}
+.link:hover{
+	color:#ece6da;
+}
+
+.link.notif {
+	position:relative;
+	display: inline-block;
+	background: #353631;
+	border-radius: 4px;
+}
+
+.bubble {
+	position:absolute;
+	height: 14px;
+	width: 14px;
+	top:-6px;
+	right:-6px;	
+	color:white;
+	background:#a6c776;
+	border-radius:50%;
+}
 .project-trigger {
 	background: #353631;
 	border-radius: 4px;
 	color: #838077;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 42px;
 	padding: 0 10px 0 15px;
 	position: relative;
