@@ -10,6 +10,7 @@ var resolve = path.resolve;
 var unzip = require('unzip');
 var utils = require('../utils/utils');
 var request = require('request');
+var ProgressBar = require('progress');
 
 
 /**
@@ -43,15 +44,27 @@ var path = program.args[0];
 //extract zip
 
 if(path) {
+  var bar  = new ProgressBar(' \033[33mdownloading\033[m : [:bar] :percent :etas', {
+      complete: '=',
+      incomplete: ' ',
+      width: 20,
+      total: 40940
+  });
   var split = path.split('/');
   var url = '/' + split[0] + '/' + split[1] + '/zip/master';
   utils.log('install', path);
   request('https://codeload.github.com' + url, function(err, res, body) {
     if(body === 'Not Found') return utils.fatal(body);
+    console.log();
     utils.log('parse', path);
-  }).pipe(unzip.Extract({
+  })
+  .on('data', function(chunk) {
+    bar.tick(chunk.length);
+  })
+  .pipe(unzip.Extract({
     path: resolve('.')
-  })).on('error', function(msg) {});
+  }))
+  .on('error', function(msg) {});
     
   //utils.log('complete', path);
 }
