@@ -48,14 +48,13 @@ if(path) {
       complete: '=',
       incomplete: ' ',
       width: 20,
-      total: 40940
+      total:4000
   });
   var split = path.split('/');
   var url = '/' + split[0] + '/' + split[1] + '/zip/master';
   utils.log('install', path);
   request('https://codeload.github.com' + url, function(err, res, body) {
     if(body === 'Not Found') return utils.fatal(body);
-    console.log();
     utils.log('parse', path);
   })
   .on('data', function(chunk) {
