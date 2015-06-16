@@ -5,6 +5,7 @@
 
 var read = require('fs').readFileSync;
 var join = require('path').join;
+var Store = require('datastore');
 
 
 /**
@@ -16,7 +17,7 @@ var join = require('path').join;
 
 module.exports = function(name) {
 
-	var that = {};
+	var that = new Store();
 
 	var path = process.cwd();
 
