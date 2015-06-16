@@ -25,6 +25,8 @@ module.exports = function(name) {
 
 	that.json = JSON.parse(read(join(path, name + '.json')));
 
+	that.set(that.json.data);
+
 	return that;
 };
 
