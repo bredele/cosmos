@@ -6,8 +6,7 @@
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "bin": {
     "cosmos": "bin/cosmos",
     "cms": "bin/cosmos"
@@ -20,5 +19,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bredele/cosmos/issues"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5"
   }
 }
