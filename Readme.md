@@ -1,16 +1,6 @@
 
 # cosmos
 
-  
-
-## Installation
-
-  Install with [component(1)](http://component.io):
-
-    $ component install bredele/cosmos
-
-## API
-
 
 
 ## License
