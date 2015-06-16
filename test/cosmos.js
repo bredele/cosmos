@@ -14,4 +14,13 @@ describe("json", function() {
 		assert.equal(app.html, '<button>${label}</button>');
 	});
 
+	it('should read json', function() {
+		var app = cosmos('test');
+		assert.deepEqual(app.json, {
+			data: {
+				title: 'hello world'
+			}
+		});
+	});
+
 });

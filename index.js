@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var read = require('fs').readFile;
+var read = require('fs').readFileSync;
 var join = require('path').join;
 
 
@@ -18,13 +18,12 @@ module.exports = function(name) {
 
 	var that = {};
 
+	var path = process.cwd();
 
-	template(name)
+	that.html = read(join(path, name + '.html'));
+
+	that.json = JSON.parse(read(join(path, name + '.json')));
+
+	return that;
 };
 
-function template(name) {
-	read(join(__dirname, name + '.html'), function (err, data) {
-	  if (err) throw err;
-	  console.log(data.toString());
-	});
-}
