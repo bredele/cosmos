@@ -18,35 +18,20 @@ describe("api", function() {
 });
 
 
-describe('template', function() {
+describe("json", function() {
 
-	it('should read html template', function() {
+	it('should read json', function() {
 		var app = cosmos('test');
-		assert.equal(app.html, '<button>${label}</button>');
+		assert.equal(app.get('title'), 'hello world');
 	});
 
 });
 
+describe('template', function() {
 
-describe("json", function() {
-
-	var app;
-
-	beforeEach(function() {
-		app = cosmos('test');
-	});
-	
-
-	it('should read json', function() {
-		assert.deepEqual(app.json, {
-			data: {
-				title: 'hello world'
-			}
-		});
-	});
-
-	it('should read data from json', function() {
-		assert.equal(app.get('title'), 'hello world');
+	it('should read html template and interpolate with data', function() {
+		var app = cosmos('test');
+		assert.equal(app.el.outerHTML, '<button>hello world</button>');
 	});
 
 });

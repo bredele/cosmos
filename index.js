@@ -5,28 +5,31 @@
 
 var read = require('fs').readFileSync;
 var join = require('path').join;
-var Store = require('datastore');
+var brick = require('brickjs');
+// @note brick should include roof
+var rood = require('roof');
 
 
 /**
- * [exports description]
+ * Micro service factory.
+ *
+ * Example:
+ *
+ *   var service = cosmos('widget');
  * 
- * @param  {[type]} name [description]
- * @return {[type]}      [description]
+ * @param {String} name
  */
 
 module.exports = function(name) {
 
-	var that = new Store();
-
 	var path = process.cwd();
 
-	that.html = read(join(path, name + '.html'));
+	var html = read(join(path, name + '.html')).toString();
 
-	that.json = JSON.parse(read(join(path, name + '.json')));
+	var json = JSON.parse(read(join(path, name + '.json')).toString());
 
-	that.set(that.json.data);
+	var that = brick(html, json.data);
 
-	return that;
+	return that.render();
 };
 
