@@ -2,6 +2,7 @@ var express = require('express');
 var cosmos = require('..');
 var app = express();
 
+// simulate cache mode
 var t0 = new Date();
 var test = cosmos('test');
 console.log(new Date() - t0);
@@ -12,6 +13,12 @@ app.get('/', function(req, res) {
 	var str = test.el.outerHTML;
 	console.log(new Date() - t0);
   res.send(str);
+});
+
+
+app.get('/dev', function(req, res) {
+	var other = cosmos('test');
+  res.send(other.el.outerHTML);
 });
 
 app.listen(8080);
