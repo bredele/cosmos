@@ -20,7 +20,8 @@ var localtunnel = require('localtunnel');
 
 var logger = new Logger(process.stderr)
   .type('running', '32m')
-  .type('share', '32m');
+  .type('share', '32m')
+  .type('warn', '33m');
 
 /**
  * Error.
@@ -118,7 +119,8 @@ logger.running('http://localhost:' + port);
 if(program.share) {
 	localtunnel(port, function(err, tunnel) {
     if (err) {
-      console.log('error', err);
+    	logger.warn(err);
+    	return;
     }
     logger.share(tunnel.url);
   });
