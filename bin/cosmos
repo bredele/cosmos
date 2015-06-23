@@ -5,11 +5,28 @@
  */
 
 var Command = require('commander').Command;
+var Logger = require('stream-log');
 var express = require('express');
 var pkg = require('../package');
 var cwd = process.cwd();
 var path = require('path');
 var open = require('open');
+
+
+/**
+ * Logger.
+ */
+
+var logger = new Logger(process.stderr)
+  .type('running', '32m');
+
+/**
+ * Error.
+ */
+
+logger.type('error', '32m', function () {
+  hasError = true;
+});
 
 
 /**
@@ -24,7 +41,6 @@ var app = express();
  */
 
 process.on('exit', function () {
-  if (!quiet) logger.end();
   if (hasError) process.exit(1);
 });
 
@@ -85,8 +101,9 @@ app.get('/', function(req, res) {
 });
 
 
-app.listen(parseInt(program.port));
+app.listen(port);
 
+logger.running('http://localhost:' + port);
 
 if(program.open) {
 	open('http://localhost:' + port);
