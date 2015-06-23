@@ -11,6 +11,7 @@ var pkg = require('../package');
 var cwd = process.cwd();
 var path = require('path');
 var open = require('open');
+var localtunnel = require('localtunnel');
 
 
 /**
@@ -18,7 +19,8 @@ var open = require('open');
  */
 
 var logger = new Logger(process.stderr)
-  .type('running', '32m');
+  .type('running', '32m')
+  .type('share', '32m');
 
 /**
  * Error.
@@ -55,6 +57,7 @@ var program = new Command('cosmos')
   .option('-p, --port <port>', 'test port server', 8050)
   .option('-o, --open', 'open cosmos app in favourite browser', false)
   .option('-v, --verbose', 'verbose output')
+  .option('-s, --share', 'share through localtunnel pipeline', false)
   .option('-w, --watch', 'watch for changes and rebuild', false)
   .parse(process.argv);
 
@@ -104,7 +107,22 @@ app.get('/', function(req, res) {
 
 app.listen(port);
 
+/**
+ * @note verbose mode should tell
+ * if the template, json has been loaded
+ * and parsed.
+ */
+
 logger.running('http://localhost:' + port);
+
+if(program.localtunnel) {
+	localtunnel(port, function(err, tunnel) {
+    if (err) {
+      console.log('error', err);
+    }
+    logger.share(tunnel.url);
+  });
+}
 
 if(program.open) {
 	open('http://localhost:' + port);
