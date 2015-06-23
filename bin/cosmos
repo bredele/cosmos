@@ -34,7 +34,8 @@ process.on('exit', function () {
 var program = new Command('cosmos')
   .version(pkg.version)
   .usage('[options] command|[file, ...]')
-  .option('-p, --port', 'test port server', 8050)
+  .option('-p, --port <port>', 'test port server', 8050)
+  .option('-w, --watch', 'watch for changes and rebuild', false)
   .parse(process.argv);
 
 
@@ -74,4 +75,5 @@ app.get('/', function(req, res) {
   res.send(cosmos.el.outerHTML);
 });
 
-app.listen(8050);
+
+app.listen(parseInt(program.port));
