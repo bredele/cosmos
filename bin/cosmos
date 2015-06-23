@@ -23,6 +23,7 @@ var logger = new Logger(process.stderr)
   .type('interactive', '95m')
   .type('running', '32m')
   .type('share', '32m')
+  .type('log', '90m')
   .type('warn', '33m');
 
 /**
@@ -96,6 +97,7 @@ var port = parseInt(program.port);
 
 
 var cosmos = require(cwd + '/index.js');
+
 
 /**
  * Return cosmos component.

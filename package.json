@@ -9,6 +9,7 @@
   "dependencies": {
     "brickjs": "git://github.com/bredele/brick",
     "datastore": "^1.1.1",
+    "debug": "^2.2.0",
     "roof": "git://github.com/bredele/roof"
   },
   "bin": {

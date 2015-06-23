@@ -8,7 +8,7 @@ var join = require('path').join;
 var brick = require('brickjs');
 // @note brick should include roof
 var rood = require('roof');
-
+var debug = require('debug');
 
 /**
  * Micro service factory.
@@ -21,6 +21,8 @@ var rood = require('roof');
  */
 
 module.exports = function(name) {
+
+	var log = debug(name);
 
 	/**
 	 * Cosmos app path.
@@ -71,7 +73,7 @@ module.exports = function(name) {
 	function html() {
 		var str = read(join(path, name + '.html'), 'utf8');
 		that.from(str.replace(/(\r\n|\n|\r)/gm,""));
-		that.emit('log', 'set ' + name + ' template');
+		log('set ' + name + ' template');
 	}
 
 
@@ -85,7 +87,7 @@ module.exports = function(name) {
 	function json() {
 		var obj = JSON.parse(read(join(path, name + '.json'), 'utf8'));
 		that.reset(obj.data);
-		that.emit('log', 'set ' + name + ' data');
+		log('set ' + name + ' data');
 	}
 
 	return that;
