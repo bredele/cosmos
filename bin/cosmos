@@ -5,7 +5,27 @@
  */
 
 var Command = require('commander').Command;
+var express = require('express');
 var pkg = require('../package');
+var cwd = process.cwd();
+var path = require('path');
+
+/**
+ * Test server.
+ */
+
+var app = express();
+
+
+/**
+ * End logger output.
+ */
+
+process.on('exit', function () {
+  if (!quiet) logger.end();
+  if (hasError) process.exit(1);
+});
+
 
 /**
  * Program.
@@ -16,7 +36,6 @@ var program = new Command('cosmos')
   .usage('[options] command|[file, ...]')
   .option('-p, --port', 'test port server', 8050)
   .parse(process.argv);
-
 
 
 /**
@@ -40,3 +59,19 @@ program.on('--help', function () {
   console.log();
   process.exit(0);
 });
+
+
+/**
+ * Return cosmos component.
+ * @note it is static right now
+ * but we should be able to re-render
+ * a cosmos app.
+ */
+
+app.get('/', function(req, res) {
+	var cosmos = require(cwd + '/index.js');
+	// @note should have a reload handler
+  res.send(cosmos.el.outerHTML);
+});
+
+app.listen(8050);
