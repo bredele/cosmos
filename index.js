@@ -52,9 +52,10 @@ module.exports = function(name) {
 	 */
 	
 	that.reload = function() {
+		log('load app');
 		that.off();
-		html();
 		json();
+		html();
 		that.render();
 		return that;
 	};
@@ -73,7 +74,7 @@ module.exports = function(name) {
 	function html() {
 		var str = read(join(path, name + '.html'), 'utf8');
 		that.from(str.replace(/(\r\n|\n|\r)/gm,""));
-		log('set ' + name + ' template');
+		log('reset template');
 	}
 
 
@@ -87,7 +88,7 @@ module.exports = function(name) {
 	function json() {
 		var obj = JSON.parse(read(join(path, name + '.json'), 'utf8'));
 		that.reset(obj.data);
-		log('set ' + name + ' data');
+		log('reset data');
 	}
 
 	return that;

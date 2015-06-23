@@ -98,7 +98,6 @@ var port = parseInt(program.port);
 
 var cosmos = require(cwd + '/index.js');
 
-
 /**
  * Return cosmos component.
  * @note it is static right now
@@ -122,6 +121,7 @@ app.listen(port);
  */
 
 logger.running('http://localhost:' + port);
+console.log();
 
 if(program.share) {
 	localtunnel(port, function(err, tunnel) {
