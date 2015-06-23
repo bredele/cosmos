@@ -9,6 +9,8 @@ var express = require('express');
 var pkg = require('../package');
 var cwd = process.cwd();
 var path = require('path');
+var open = require('open');
+
 
 /**
  * Test server.
@@ -35,6 +37,7 @@ var program = new Command('cosmos')
   .version(pkg.version)
   .usage('[options] command|[file, ...]')
   .option('-p, --port <port>', 'test port server', 8050)
+  .option('-o, --open', 'open cosmos app in favourite browser', false)
   .option('-w, --watch', 'watch for changes and rebuild', false)
   .parse(process.argv);
 
@@ -63,6 +66,12 @@ program.on('--help', function () {
 
 
 /**
+ * server port.
+ */
+
+var port = parseInt(program.port);
+
+/**
  * Return cosmos component.
  * @note it is static right now
  * but we should be able to re-render
@@ -77,3 +86,8 @@ app.get('/', function(req, res) {
 
 
 app.listen(parseInt(program.port));
+
+
+if(program.open) {
+	open('http://localhost:' + port);
+}
