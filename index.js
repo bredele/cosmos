@@ -52,8 +52,11 @@ module.exports = function(name) {
 	 */
 	
 	that.reload = function() {
-		log('load app');
+		log('load');
 		that.off();
+		// @note we should may be render json once
+		// and update on watch or by manual cmd
+		// this way we can change the data programmaticaly
 		json();
 		html();
 		that.render();
