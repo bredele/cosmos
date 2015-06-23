@@ -94,6 +94,9 @@ program.on('--help', function () {
 
 var port = parseInt(program.port);
 
+
+var cosmos = require(cwd + '/index.js');
+
 /**
  * Return cosmos component.
  * @note it is static right now
@@ -102,7 +105,7 @@ var port = parseInt(program.port);
  */
 
 app.get('/', function(req, res) {
-	var cosmos = require(cwd + '/index.js');
+	cosmos.reload();
 	// @note should have a reload handler
   res.send(cosmos.el.outerHTML);
 });
