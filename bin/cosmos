@@ -54,6 +54,7 @@ var program = new Command('cosmos')
   .usage('[options] command|[file, ...]')
   .option('-p, --port <port>', 'test port server', 8050)
   .option('-o, --open', 'open cosmos app in favourite browser', false)
+  .option('-v, --verbose', 'verbose output')
   .option('-w, --watch', 'watch for changes and rebuild', false)
   .parse(process.argv);
 
