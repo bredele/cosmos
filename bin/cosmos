@@ -12,6 +12,7 @@ var cwd = process.cwd();
 var path = require('path');
 var open = require('open');
 var localtunnel = require('localtunnel');
+var inquirer = require("inquirer");
 
 
 /**
@@ -19,6 +20,7 @@ var localtunnel = require('localtunnel');
  */
 
 var logger = new Logger(process.stderr)
+  .type('interactive', '95m')
   .type('running', '32m')
   .type('share', '32m')
   .type('warn', '33m');
@@ -129,3 +131,20 @@ if(program.share) {
 if(program.open) {
 	open('http://localhost:' + port);
 }
+
+// logger.interactive();
+// console.log();
+
+// var questions = [{
+//   type: 'input',
+//   name: 'prompt',
+//   message: '> ',
+// }];
+
+// function prompt() {
+// 	inquirer.prompt(questions, function(answers) {
+// 	    prompt();
+// 	});
+// }
+
+// prompt();
