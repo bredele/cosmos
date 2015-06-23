@@ -17,8 +17,7 @@ app.get('/', function(req, res) {
 
 
 app.get('/dev', function(req, res) {
-	var other = cosmos('test');
-  res.send(other.el.outerHTML);
+  res.send(cosmos('test').el.outerHTML);
 });
 
 app.listen(8080);

@@ -1,1 +1,42 @@
 #!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var Command = require('commander').Command;
+var pkg = require('../package');
+
+/**
+ * Program.
+ */
+
+var program = new Command('cosmos')
+  .version(pkg.version)
+  .usage('[options] command|[file, ...]')
+  .option('-p, --port', 'test port server', 8050)
+  .parse(process.argv);
+
+
+
+/**
+ * Help.
+ */
+
+program.on('--help', function () {
+  console.log('  Usage:');
+  console.log();
+  console.log('  # launch cosmos app on default port');
+  console.log('  $ cosmos');
+  console.log();
+  console.log('  # test cosmos app on specific port');
+  console.log('  $ cosmos --port 8080');
+  console.log();
+  console.log('  Commands:');
+  console.log();
+  console.log('    install      install dependencies for a file.');
+  console.log('    ls           list all dependencies.');
+  console.log('    duplicates   show all duplicates.');
+  console.log();
+  process.exit(0);
+});

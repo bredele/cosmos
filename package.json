@@ -25,6 +25,7 @@
     "url": "https://github.com/bredele/cosmos/issues"
   },
   "devDependencies": {
+    "commander": "^2.8.1",
     "express": "^4.12.4",
     "mocha": "^2.2.5"
   }
