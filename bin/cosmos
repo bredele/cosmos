@@ -115,7 +115,7 @@ app.listen(port);
 
 logger.running('http://localhost:' + port);
 
-if(program.localtunnel) {
+if(program.share) {
 	localtunnel(port, function(err, tunnel) {
     if (err) {
       console.log('error', err);
