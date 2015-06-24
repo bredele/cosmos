@@ -22,6 +22,11 @@ var logger = new Logger(process.stderr)
   .type('log', '90m')
   .type('warn', '33m');
 
+
+/**
+ * Prompt questions.
+ */
+
 var questions = [
   {
     type: "input",
@@ -36,6 +41,11 @@ var questions = [
   }
 ];
 
+
+/**
+ * Create prompt.
+ */
+
 inquirer.prompt(questions, function(answers) {
   var name = answers.name;
   mkdir(name);
@@ -47,8 +57,6 @@ inquirer.prompt(questions, function(answers) {
   write(join(name, name + '.html'), "");
   write(join(name, 'index.js'), "\n/**\n * Module dependencies.\n */\n\nvar cosmos = require('cosmos');\n\n/**\n * Expose cosmos app.\n */\n\nvar app = module.exports = cosmos('" + name + "');\n");
 });
-
-
 
 
 /**
