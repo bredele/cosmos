@@ -37,7 +37,7 @@ var questions = [
     type: "list",
     name: "type",
     message: "type: ",
-    choices: [ "widget", "page", "service" ]
+    choices: [ "widget", "page","template","service" ]
   }
 ];
 
