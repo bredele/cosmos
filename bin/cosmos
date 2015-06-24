@@ -10,6 +10,9 @@ var express = require('express');
 var pkg = require('../package');
 var cwd = process.cwd();
 var path = require('path');
+var join = path.join;
+var exists = require('fs').existsSync;
+var spawn = require('win-fork');
 var open = require('open');
 var localtunnel = require('localtunnel');
 var inquirer = require("inquirer");
@@ -31,7 +34,7 @@ var logger = new Logger(process.stderr)
  */
 
 logger.type('error', '32m', function () {
-  hasError = true;
+  //hasError = true;
 });
 
 
@@ -47,7 +50,7 @@ var app = express();
  */
 
 process.on('exit', function () {
-  if (hasError) process.exit(1);
+  //if (hasError) process.exit(1);
 });
 
 
@@ -87,6 +90,49 @@ program.on('--help', function () {
   console.log();
   process.exit(0);
 });
+
+
+// parse argv
+
+program.parse(process.argv);
+
+
+// args void of cmd
+
+var args = process.argv.slice(3);
+
+
+// command
+
+var cmd = program.args[0];
+
+if (cmd) {
+  // executable
+
+  var bin = 'cosmos-' + cmd;
+
+
+  // local or resolve to absolute executable path
+
+  var local = join(__dirname, bin);
+
+
+  // display help if bin does not exist
+
+  if (!exists(local)) {
+    console.error('\n  %s(1) does not exist', bin);
+    program.help();
+  }
+
+  // spawn
+
+  var proc = spawn(local, args, { stdio: 'inherit', customFds: [0, 1, 2] });
+
+  proc.on('close', function(code){
+    process.exit(code);
+  });
+  return;
+}
 
 
 /**

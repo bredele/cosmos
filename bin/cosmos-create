@@ -1,108 +1,65 @@
+#!/usr/bin/env node
 
 /**
  * Module dependencies.
  */
 
 var Command = require('commander').Command;
+var Logger = require('stream-log');
 var inquirer = require("inquirer");
-
+var mkdir = require('mkdirp').sync;
+var path = require('path');
+var fs = require('fs');
+var join = path.join;
+var exists = fs.existsSync;
 
 /**
- * Examples.
+ * Logger.
  */
-var program = new Command('cosmos')
-  .on('--help', function() {
-    console.log('  Examples:');
-    console.log();
-    console.log('    # create cosmos app');
-    console.log('    $ cosmos create');
-    console.log();
-  });
 
-
+var logger = new Logger(process.stderr)
+  .type('error', '32m')
+  .type('log', '90m')
+  .type('warn', '33m');
 
 var questions = [
   {
-    type: "confirm",
-    name: "toBeDelivered",
-    message: "Is it for a delivery",
-    default: false
-  },
-  {
     type: "input",
-    name: "phone",
-    message: "What's your phone number",
-    validate: function( value ) {
-      var pass = value.match(/^([01]{1})?[\-\.\s]?\(?(\d{3})\)?[\-\.\s]?(\d{3})[\-\.\s]?(\d{4})\s?((?:#|ext\.?\s?|x\.?\s?){1}(?:\d+)?)?$/i);
-      if (pass) {
-        return true;
-      } else {
-        return "Please enter a valid phone number";
-      }
-    }
+    name: "name",
+    message: "name: "
   },
   {
     type: "list",
-    name: "size",
-    message: "What size do you need",
-    choices: [ "Large", "Medium", "Small" ],
-    filter: function( val ) { return val.toLowerCase(); }
-  },
-  {
-    type: "input",
-    name: "quantity",
-    message: "How many do you need",
-    validate: function( value ) {
-      var valid = !isNaN(parseFloat(value));
-      return valid || "Please enter a number";
-    },
-    filter: Number
-  },
-  {
-    type: "expand",
-    name: "toppings",
-    message: "What about the toping",
-    choices: [
-      {
-        key: "p",
-        name: "Peperonni and chesse",
-        value: "PeperonniChesse"
-      },
-      {
-        key: "a",
-        name: "All dressed",
-        value: "alldressed"
-      },
-      {
-        key: "w",
-        name: "Hawaïan",
-        value: "hawaian"
-      }
-    ]
-  },
-  {
-    type: "rawlist",
-    name: "beverage",
-    message: "You also get a free 2L beverage",
-    choices: [ "Pepsi", "7up", "Coke" ]
-  },
-  {
-    type: "input",
-    name: "comments",
-    message: "Any comments on your purchase experience",
-    default: "Nope, all good!"
-  },
-  {
-    type: "list",
-    name: "prize",
-    message: "For leaving a comments, you get a freebie",
-    choices: [ "cake", "fries" ],
-    when: function( answers ) {
-      return answers.comments !== "Nope, all good!";
-    }
+    name: "type",
+    message: "type: ",
+    choices: [ "widget", "page", "service" ]
   }
 ];
 
-inquirer.prompt( questions, function( answers ) {
-  console.log(answers);
+inquirer.prompt(questions, function(answers) {
+  var name = answers.name;
+  mkdir(name);
+  write(join(name, name + '.json'), JSON.stringify({
+    name: name,
+    type: answers.type,
+    data : {}
+  }, null, 2));
+  write(join(name, name + '.html'), "");
+  write(join(name, 'index.js'), "\n/**\n * Module dependencies.\n */\n\nvar cosmos = require('cosmos');\n\n/**\n * Expose cosmos app.\n */\n\nvar app = module.exports = cosmos('" + name + "');\n");
 });
+
+
+
+
+/**
+ * Verbose write.
+ */
+
+function write(path, str) {
+  if (exists(path)) {
+    logger.warn('exists', path);
+  } else {
+    logger.log('create', path);
+    fs.writeFileSync(path, str);
+  }
+}
